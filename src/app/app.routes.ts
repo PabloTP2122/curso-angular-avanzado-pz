@@ -8,6 +8,11 @@ export const routes: Routes = [
     component: LayoutComponent,
     children: [
       {
+        path: 'category/:slug',
+        loadComponent: () =>
+          import('./domains/products/pages/list/list.component'),
+      },
+      {
         path: '',
         loadComponent: () =>
           import('./domains/products/pages/list/list.component'),
@@ -18,7 +23,7 @@ export const routes: Routes = [
           import('./domains/info/pages/about/about.component'),
       },
       {
-        path: 'product/:id',
+        path: 'product/:slug',
         loadComponent: () =>
           import(
             './domains/products/pages/product-detail/product-detail.component'

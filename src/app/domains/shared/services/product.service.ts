@@ -10,15 +10,26 @@ export class ProductService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
 
-  getProducts(category_id?: string) {
+  getProducts(params: { category_id?: string; category_slug?: string }) {
     const url = new URL(`${this.apiUrl}/api/v1/products`);
-    if (category_id) {
-      url.searchParams.set('categoryId', category_id);
+    if (params.category_id) {
+      url.searchParams.set('categoryId', params.category_id);
+    }
+    if (params.category_slug) {
+      url.searchParams.set('categorySlug', params.category_slug);
     }
     return this.http.get<Product[]>(url.toString());
   }
 
-  getOne(id: string) {
-    return this.http.get<Product>(`${this.apiUrl}/api/v1/products/${id}`);
+  getOne(params: { id?: string; slug?: string }) {
+    if (params.id) {
+      return this.http.get<Product>(
+        `${this.apiUrl}/api/v1/products/${params.id}`
+      );
+    } else {
+      return this.http.get<Product>(
+        `${this.apiUrl}/api/v1/products/slug/${params.slug}`
+      );
+    }
   }
 }
