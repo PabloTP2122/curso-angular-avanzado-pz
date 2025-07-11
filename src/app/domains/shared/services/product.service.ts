@@ -21,15 +21,12 @@ export class ProductService {
     return this.http.get<Product[]>(url.toString());
   }
 
-  getOne(params: { id?: string; slug?: string }) {
-    if (params.id) {
-      return this.http.get<Product>(
-        `${this.apiUrl}/api/v1/products/${params.id}`
-      );
-    } else {
-      return this.http.get<Product>(
-        `${this.apiUrl}/api/v1/products/slug/${params.slug}`
-      );
-    }
+  getOne(id: string) {
+    return this.http.get<Product>(`${this.apiUrl}/api/v1/products/${id}`);
+  }
+  getBySlug(slug: string) {
+    return this.http.get<Product>(
+      `${this.apiUrl}/api/v1/products/slug/${slug}`
+    );
   }
 }

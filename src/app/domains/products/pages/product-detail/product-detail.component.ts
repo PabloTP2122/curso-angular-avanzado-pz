@@ -18,7 +18,7 @@ export default class ProductDetailComponent implements OnInit {
 
   ngOnInit() {
     if (this.slug) {
-      this.productService.getOne({ slug: this.slug }).subscribe({
+      this.productService.getBySlug(this.slug).subscribe({
         next: product => {
           this.product.set(product);
           if (product.images.length > 0) {
