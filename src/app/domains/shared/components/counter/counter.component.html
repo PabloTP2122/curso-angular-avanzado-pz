@@ -1,3 +1,9 @@
 <p>{{ counter() }}</p>
 <p>{{ $duration() }}</p>
-<p>{{ doubleDuration() }}</p>
+<p>{{ $doubleDuration() }}</p>
+
+<hr />
+<p>Child message: {{ $message() }}</p>
+<button class="bg-slate-500 text-white p-2 rounded-md" (click)="setMessage()">
+  Cambiar mensaje en hijo
+</button>

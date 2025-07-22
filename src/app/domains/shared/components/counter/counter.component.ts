@@ -7,6 +7,7 @@ import {
   OnDestroy,
   effect,
   computed,
+  model,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -17,8 +18,9 @@ import { CommonModule } from '@angular/common';
 })
 export class CounterComponent implements OnInit, AfterViewInit, OnDestroy {
   $duration = input.required<number>({ alias: 'duration' });
-  doubleDuration = computed(() => this.$duration() * 2);
-  message = input.required<string>();
+  $doubleDuration = computed(() => this.$duration() * 2);
+  //$message = input.required<string>({ alias: 'message' });
+  $message = model.required<string>({ alias: 'message' });
   counter = signal(0);
   counterRef: number | undefined;
 
@@ -35,7 +37,7 @@ export class CounterComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     effect(() => {
-      this.message();
+      this.$message();
       this.doSomething2();
     });
   }
@@ -58,7 +60,7 @@ export class CounterComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('ngOnInit');
     console.log('-'.repeat(10));
     console.log('duration =>', this.$duration());
-    console.log('message =>', this.message());
+    console.log('$message =>', this.$message());
     this.counterRef = window.setInterval(() => {
       console.log('run interval');
       this.counter.update(statePrev => statePrev + 1);
@@ -83,7 +85,11 @@ export class CounterComponent implements OnInit, AfterViewInit, OnDestroy {
     // async
   }
   doSomething2() {
-    console.log('change message');
+    console.log('change $message');
     // async
+  }
+
+  setMessage() {
+    this.$message.set(Math.random().toString());
   }
 }
