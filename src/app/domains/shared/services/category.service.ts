@@ -13,4 +13,10 @@ export class CategoryService {
   getAll() {
     return this.http.get<Category[]>(`${this.apiUrl}/api/v1/categories`);
   }
+
+  async getAllPromise() {
+    const response = await fetch(`${this.apiUrl}/api/v1/categories`);
+    const data = await response.json();
+    return data;
+  }
 }

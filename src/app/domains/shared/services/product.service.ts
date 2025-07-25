@@ -29,4 +29,15 @@ export class ProductService {
       `${this.apiUrl}/api/v1/products/slug/${slug}`
     );
   }
+
+  async getProductsPromise(category_slug: string) {
+    if (!category_slug) {
+      return;
+    }
+    const response = await fetch(
+      `${this.apiUrl}/api/v1/products?categorySlug=${category_slug}`
+    );
+    const data = await response.json();
+    return data;
+  }
 }
