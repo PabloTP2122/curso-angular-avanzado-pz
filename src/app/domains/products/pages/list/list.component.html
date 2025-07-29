@@ -20,7 +20,7 @@
       <li>
         <a routerLink="/">All</a>
       </li>
-      @for (category of categoriesResource.value(); track category) {
+      @for (category of categoriesResource.value() ?? []; track category) {
         <li>
           <a routerLink="/category/{{ category.slug }}">{{ category.name }}</a>
         </li>
@@ -28,7 +28,7 @@
     </ul>
   </div>
   <div class="grid grid-cols-2 gap-8 w-full md:grid-cols-4">
-    @for (product of productsResource.value(); track product) {
+    @for (product of productsResource.value() ?? []; track product) {
       <app-product [product]="product" (addToCart)="addToCart($event)" />
     }
   </div>

@@ -22,7 +22,7 @@ export default class ListComponent {
   products = signal<Product[]>([]);
 
   categoriesResource = rxResource({
-    loader: () => this.categoryService.getAll(),
+    stream: () => this.categoryService.getAll(),
   });
 
   //Ejemplo con resource
@@ -31,15 +31,15 @@ export default class ListComponent {
   });
   //Ejemplo con rxResource
   productsResource = rxResource({
-    request: () => ({ category_slug: this.slug() }),
-    loader: ({ request }) => this.productService.getProducts(request),
+    params: () => ({ category_slug: this.slug() }),
+    stream: ({ params }) => this.productService.getProducts(params),
   });
 
   //Ejemplo con resource
   productResourcePromise = resource({
-    request: () => ({ category_slug: this.slug() }),
-    loader: ({ request }) =>
-      this.productService.getProductsPromise(request.category_slug!),
+    params: () => ({ category_slug: this.slug() }),
+    loader: ({ params }) =>
+      this.productService.getProductsPromise(params.category_slug!),
   });
 
   addToCart(product: Product) {
