@@ -4,6 +4,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { LocationsService } from '@shared/services/locations.service';
 import { GoogleMap, MapAdvancedMarker } from '@angular/google-maps';
 import { Location } from '@shared/models/location.model';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-locations',
@@ -25,6 +26,7 @@ export default class LocationsComponent {
     lng: -104.6615588429324,
   });
   $zoom = signal(12);
+  readonly mapId = environment.googleMapsMapId;
 
   constructor() {
     afterNextRender(() => {
