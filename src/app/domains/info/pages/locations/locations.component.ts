@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { LocationsService } from '@shared/services/locations.service';
 import { GoogleMap, MapAdvancedMarker } from '@angular/google-maps';
+import { Location } from '@shared/models/location.model';
 
 @Component({
   selector: 'app-locations',
@@ -45,4 +46,10 @@ export default class LocationsComponent {
         lng: params.origin.lng,
       }),
   });
+
+  //Agregando info window
+  openInfoWindow(location: Location, marker: MapAdvancedMarker) {
+    console.log('Location: ', location);
+    console.log('Marker: ', marker);
+  }
 }

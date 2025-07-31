@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from '@shared/components/layout/layout.component';
 import { NotFoundComponent } from '@info/pages/not-found/not-found.component';
+import { loadMapsApiGuard } from './domains/shared/guards/maps.guard';
 
 export const routes: Routes = [
   {
@@ -31,6 +32,7 @@ export const routes: Routes = [
       },
       {
         path: 'locations',
+        canActivate: [loadMapsApiGuard],
         loadComponent: () =>
           import('./domains/info/pages/locations/locations.component'),
       },
