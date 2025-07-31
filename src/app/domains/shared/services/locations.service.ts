@@ -11,12 +11,18 @@ export class LocationsService {
   private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
 
-  getLocationsByOrigin(origin: string): Observable<Location[]> {
+  getLocationsByOrigin(origin: {
+    lat: number;
+    lng: number;
+  }): Observable<Location[]> {
     if (!origin) {
-      //Para consistencia
+      //Para consistencia si aún no llega el origin
       return of([]);
     }
-    const params = new HttpParams().set('origin', origin);
+    const params = new HttpParams().set(
+      'origin',
+      `${origin.lat},${origin.lng}`
+    );
     return this.http.get<Location[]>(`${this.apiUrl}/api/v1/locations`, {
       params,
     });

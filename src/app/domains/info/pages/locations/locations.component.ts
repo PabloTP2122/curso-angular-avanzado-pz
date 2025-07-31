@@ -1,28 +1,48 @@
 import { afterNextRender, Component, inject, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { LocationsService } from '@shared/services/locations.service';
+import { GoogleMap, MapAdvancedMarker } from '@angular/google-maps';
 
 @Component({
   selector: 'app-locations',
-  imports: [],
+  imports: [GoogleMap, MapAdvancedMarker, FormsModule],
   templateUrl: './locations.component.html',
 })
 export default class LocationsComponent {
   locationsService = inject(LocationsService);
-  $origin = signal('');
+  /* center: google.maps.LatLngLiteral = {
+    lat: 24,
+    lng: 12,
+  }; */
+  //24.0192637648572, -104.6615588429324
+  advancedMarkerOptions: google.maps.marker.AdvancedMarkerElementOptions = {
+    gmpDraggable: false,
+  };
+  $origin = signal<google.maps.LatLngLiteral>({
+    lat: 24.0192637648572,
+    lng: -104.6615588429324,
+  });
+  $zoom = signal(12);
 
   constructor() {
     afterNextRender(() => {
       navigator.geolocation.getCurrentPosition(position => {
-        const origin = `${position.coords.latitude},${position.coords.longitude}`;
+        const origin = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
         this.$origin.set(origin);
       });
     });
   }
 
-  locations = rxResource({
+  $locations = rxResource({
     params: () => ({ origin: this.$origin() }),
     stream: ({ params }) =>
-      this.locationsService.getLocationsByOrigin(params.origin),
+      this.locationsService.getLocationsByOrigin({
+        lat: params.origin.lat,
+        lng: params.origin.lng,
+      }),
   });
 }
