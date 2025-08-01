@@ -16,10 +16,17 @@ import {
 } from '@angular/google-maps';
 import { Location } from '@shared/models/location.model';
 import { environment } from '@env/environment';
+import { MarkerIconPipe } from '@shared/pipes/marker-icon.pipe';
 
 @Component({
   selector: 'app-locations',
-  imports: [GoogleMap, MapAdvancedMarker, FormsModule, MapInfoWindow],
+  imports: [
+    GoogleMap,
+    MapAdvancedMarker,
+    FormsModule,
+    MapInfoWindow,
+    MarkerIconPipe,
+  ],
   templateUrl: './locations.component.html',
 })
 export default class LocationsComponent {
@@ -27,6 +34,7 @@ export default class LocationsComponent {
   // 24.0192637648572, -104.6615588429324
   // Bogotá: 4.655121008091634, -74.05599827967885
   infoWindowRef = viewChild.required(MapInfoWindow);
+  //iconRef = viewChild<ElementRef>('icon');
   markersRef = viewChildren(MapAdvancedMarker);
 
   $origin = signal<google.maps.LatLngLiteral>({
@@ -35,7 +43,6 @@ export default class LocationsComponent {
   });
   $zoom = signal(12);
   readonly mapId = environment.googleMapsMapId;
-  customIconElement: HTMLElement | undefined;
 
   constructor() {
     afterNextRender(() => {
@@ -47,15 +54,6 @@ export default class LocationsComponent {
         this.$origin.set(origin);
       });
     });
-    // Example of creating a custom SVG icon element
-    const svgString = `
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="black">
-        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-      </svg>
-    `;
-    const parser = new DOMParser();
-    const svgDoc = parser.parseFromString(svgString, 'image/svg+xml');
-    this.customIconElement = svgDoc.documentElement;
   }
 
   $locations = rxResource({

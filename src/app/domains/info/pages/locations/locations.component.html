@@ -34,7 +34,8 @@
           <map-advanced-marker
             #marker="mapAdvancedMarker"
             [position]="{ lat: location.latitude, lng: location.longitude }"
-            (mapClick)="openInfoWindow(location, marker)" />
+            (mapClick)="openInfoWindow(location, marker)"
+            [content]="location | markerIcon" />
           <map-info-window />
         }
       </google-map>
