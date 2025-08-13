@@ -30,6 +30,12 @@ export class ProductService {
     );
   }
 
+  getRelatedProducts(slug: string) {
+    return this.http.get<Product[]>(
+      `${this.apiUrl}/api/v1/products/slug/${slug}/related`
+    );
+  }
+
   async getProductsPromise(category_slug: string) {
     if (!category_slug) {
       return;
