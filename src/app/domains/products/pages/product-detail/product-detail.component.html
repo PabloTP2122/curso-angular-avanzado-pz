@@ -51,5 +51,10 @@
       </button>
     </div>
   </div>
-  <app-related [slug]="product_data.slug" />
+  <div class="mt-80"></div>
+  @defer (on viewport) {
+    <app-related [slug]="product_data.slug" />
+  } @placeholder {
+    <p>Loading...</p>
+  }
 }
